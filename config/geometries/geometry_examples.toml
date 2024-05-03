@@ -1,0 +1,33 @@
+[[cuboids]]
+center = { x = 0.7, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[spheres]]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+radius = 0.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[cylinders]]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+direction = { x = 0.0, y = 1.0, z = 0.0 }
+length = 1.5
+radius = 0.10
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1

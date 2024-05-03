@@ -1,0 +1,71 @@
+[[cuboids]]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+width = 10.0
+depth = 10.0
+height = 10.0
+material_name = "H1"
+material_composition_vector = [
+  { material_name = "H1", material_fraction = 0.6666666667 },
+  { material_name = "O16", material_fraction = 0.3333333333 },
+]
+order = -1
+
+[[cuboids]]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[cuboids]]
+center = { x = 0.175, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[cuboids]]
+center = { x = 0.35, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[cuboids]]
+center = { x = 0.525, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1
+
+[[cuboids]]
+center = { x = 0.7, y = 0.0, z = 0.0 }
+width = 0.020
+depth = 0.50
+height = 0.50
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 1

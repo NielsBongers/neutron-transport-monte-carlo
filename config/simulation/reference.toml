@@ -1,0 +1,56 @@
+# config/reference.toml
+# This TOML is loaded by the test simulations to ensure the code is working as expected. 
+# The parameters in here should not be modified without prior testing and validation, otherwise the tests may become unreliable. 
+# The bin parameters are not actually used, but are left in, in case we want to do further validation later on. 
+
+[parallelization_parameters]
+number_threads = 1
+simulations_per_thread = 1
+
+[simulation_parameters]
+neutron_generation_cap = 2000
+neutron_count_cap = 10000
+initial_neutron_count = 100
+enforce_maximum_neutron_count = false
+track_creation = true
+track_positions = false
+track_energies = false
+track_bins = false
+plot_geometry = false 
+maximum_neutron_energy_difference = 0.01 
+geometries_path = ""
+neutron_initial_position = { x = 0.0, y = 0.0, z = 0.0 }
+track_from_generation = 1 # Generation from which to start tracking results. 
+write_results = true # Calculates everything but does not write any results to diagnostics file except the simulation report. 
+model_heat_diffusion = false 
+neutron_multiplier = 0
+
+[heat_diffusion_parameters]
+source_data_file = '/path/to/source/result'
+neutron_multiplier = 5.5e4 # Neutron multiplier for the heat diffusion. 
+convective_heat_transfer_coefficient = 14349 # Based on Nusselt for a flat plate, spacing of 1.5 cm. 
+thermal_conductivity = 27.0 # Thermal conductivity. 
+density = 17300.0 # Density. 
+heat_capacity = 116.0 # Heat capacity. 
+external_temperature = 293.15 # External temperature applied to the plates. 
+time_step = 0.01 # Time step in the heat diffusion model. 
+t_end = 50.0 # Simulation time (s).
+write_interval = 100 # Iterations. 
+
+[bin_parameters]
+length_count = 200
+depth_count = 200
+height_count = 200
+total_length = 2.0
+total_depth = 2.0
+total_height = 2.0
+center = { x = 0.0, y = 0.0, z = 0.0 }
+
+[plot_parameters]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+length_count = 200
+depth_count = 200
+height_count = 200
+total_length = 2.0
+total_depth = 2.0
+total_height = 2.0

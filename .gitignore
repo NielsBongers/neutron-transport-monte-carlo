@@ -1,0 +1,26 @@
+# Compilation outputs
+/target
+__pycache__
+*.exe 
+.vscode/*
+.vscode 
+
+# Results 
+*.txt 
+/results/
+
+# Enable these for public releases. 
+docs
+/figures/general 
+
+# Personal testing 
+src/geometry/presets/create_assembly.rs 
+
+# Raw input data 
+*.endf 
+
+# Python script outputs 
+scripts/raw_data
+scripts/converted_data
+scripts/aggregated_data
+scripts/retrieved_data

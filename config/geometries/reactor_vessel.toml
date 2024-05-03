@@ -1,0 +1,417 @@
+[[cylinders]] # Steel vessel.
+center = { x = 0.0, y = 0.0, z = 0.0 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 3.0
+radius = 1.0
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 1
+
+[[spheres]] # Top cap. 
+center = { x = 0.0, y = 0.0, z = 1.5 }
+radius = 1.0
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 1
+
+[[spheres]] # Bottom cap. 
+center = { x = 0.0, y = 0.0, z = -1.5 }
+radius = 1.0
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 1
+
+[[cylinders]] # Water inside. 
+center = { x = 0.0, y = 0.0, z = 0.0 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 3.0
+radius = 0.9
+material_name = "H1"
+material_composition_vector = [
+  { material_name = "H1", material_fraction = 0.6666666667 },
+  { material_name = "O16", material_fraction = 0.3333333333 },
+]
+order = 2
+
+[[spheres]] # Water top cap. 
+center = { x = 0.0, y = 0.0, z = 1.5 }
+radius = 0.9
+material_name = "H1"
+material_composition_vector = [
+  { material_name = "H1", material_fraction = 0.6666666667 },
+  { material_name = "O16", material_fraction = 0.3333333333 },
+]
+order = 2
+
+[[spheres]] # Water bottom cap. 
+center = { x = 0.0, y = 0.0, z = -1.5 }
+radius = 0.9
+material_name = "H1"
+material_composition_vector = [
+  { material_name = "H1", material_fraction = 0.6666666667 },
+  { material_name = "O16", material_fraction = 0.3333333333 },
+]
+order = 2
+
+## Steel supports
+
+[[cuboids]] # Top right support. 
+center = { x = 0.0, y = 0.20, z = 0.75 }
+width = 2.0
+depth = 0.05
+height = 0.05
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 3
+
+[[cuboids]] # Top left support. 
+center = { x = 0.0, y = -0.20, z = 0.75 }
+width = 2.0
+depth = 0.05
+height = 0.05
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 3
+
+[[cuboids]] # Bottom right support. 
+center = { x = 0.0, y = 0.20, z = -0.75 }
+width = 2.0
+depth = 0.05
+height = 0.05
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 3
+
+# Bottom left support. 
+[[cuboids]] # Bottom left support. 
+center = { x = 0.0, y = -0.20, z = -0.75 }
+width = 2.0
+depth = 0.05
+height = 0.05
+material_name = "Fe54"
+material_composition_vector = [
+  { material_name = "Fe54", material_fraction = 1.0 },
+]
+order = 3
+
+## Fuel elements
+[[cuboids]] # Fuel plate
+center = { x = -0.55, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+[[cuboids]] # Fuel plate
+center = { x = -0.45, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = -0.35, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = -0.25, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = -0.05, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = -0.15, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.15, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.05, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.35, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.25, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.55, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cuboids]] # Fuel plate
+center = { x = 0.45, y = 0.0, z = 0.0 }
+width = 0.005
+depth = 1.0
+height = 1.5
+material_name = "U235"
+material_composition_vector = [
+  { material_name = "U238", material_fraction = 0.06 },
+  { material_name = "U235", material_fraction = 0.94 },
+]
+order = 4
+
+[[cylinders]] # Control rod
+center = { x = 0.40, y = 0.0, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.40, y = 0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.40, y = -0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.20, y = 0.0, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.20, y = 0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.20, y = -0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.0, y = 0.0, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.0, y = 0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = 0.0, y = -0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = -0.20, y = 0.0, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = -0.20, y = 0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = -0.20, y = -0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+
+[[cylinders]] # Control rod
+center = { x = -0.40, y = 0.0, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = -0.40, y = -0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
+
+[[cylinders]] # Control rod
+center = { x = -0.40, y = 0.15, z = 0.00 }
+direction = { x = 0.0, y = 0.0, z = 1.0 }
+length = 4.0
+radius = 0.02
+material_name = "B10"
+material_composition_vector = [
+  { material_name = "B10", material_fraction = 1.0 },
+]
+order = 5
