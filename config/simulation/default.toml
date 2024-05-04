@@ -11,7 +11,7 @@ neutron_generation_cap = 100                    # Maximum number of generations:
 neutron_count_cap = 5000                        # Maximum number of neutrons: simulated will be halted unless enforce_maximum_neutron_count is true. 
 initial_neutron_count = 1000                    # Initial number of neutrons. 
 maximum_neutron_energy_difference = 0.01        # Maximum energy difference from elastic collisions before the material properties are updated. 
-enforce_maximum_neutron_count = true            # Removes any neutrons beyond neutron_count_cap. Useful for power estimation. 
+enforce_maximum_neutron_count = false            # Removes any neutrons beyond neutron_count_cap. Useful for power estimation. 
 halt_time = 1e-5                                # Removes any neutron after this time. Useful for power estimation. 
 track_from_generation = 5                       # Generation from which to start tracking results. Reduces initialization bias. 
 
