@@ -6,7 +6,7 @@
 
 This is an energy-dependent neutron transport Monte Carlo simulation developed entirely in Rust, which can be used to design and simulate simple nuclear reactors. 
 
-<img src="figures/03052024 - Neutron Monte Carlo - ParaView - k=1 reactor with control rods, stretched.png" width="600" alt="ParaView visualization of a reactor consisting of five 94% U-235 plates.">
+<img src="figures/03052024 - Neutron Monte Carlo - ParaView - k=1 reactor with control rods, stretched.png" width="400" alt="ParaView visualization of a reactor consisting of five 94% U-235 plates.">
 
 ## Features 
 
