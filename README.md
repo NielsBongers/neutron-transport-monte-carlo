@@ -38,7 +38,7 @@ total_height = 2.0
 
 The simulation sums up all neutrons per bin, as well as all fissions per bin, allowing for heat generation modelling. An example with control rods optimized for $k = 1.005$ shows the flux is concentrated in the lower level of the reactor. 
 
-<img src="figures/02052024 - Neutron Monte Carlo - ParaView - k=1.027 reactor with control rods at 1.70.png" width="400" alt="ParaView visualization of a reactor.">
+<img src="figures/02052024 - Neutron Monte Carlo - ParaView - k=1.027 reactor with control rods at 1.70.png" width="450" alt="ParaView visualization of a reactor.">
 
 ### Materials 
 
