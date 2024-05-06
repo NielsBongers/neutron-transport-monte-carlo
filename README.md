@@ -1,5 +1,7 @@
 # Neutron Transport Monte Carlo 
 
+![Rust](https://github.com/NielsBongers/neutron-transport-monte-carlo/workflows/Rust/badge.svg?branch=main)
+
 ## Overview 
 
 This is an energy-dependent neutron transport Monte Carlo simulation developed entirely in Rust, which can be used to design and simulate simple nuclear reactors. 
