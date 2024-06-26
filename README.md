@@ -1,6 +1,8 @@
 # Neutron Transport Monte Carlo 
 
-![Rust Main](https://github.com/NielsBongers/neutron-transport-monte-carlo/workflows/Rust/badge.svg?branch=main) ![Rust Dev](https://github.com/NielsBongers/neutron-transport-monte-carlo/workflows/Rust/badge.svg?branch=dev)
+![Rust Main](https://github.com/NielsBongers/neutron-transport-monte-carlo/actions/workflows/rust.yml/badge.svg?branch=main&event=push)
+![Rust Dev](https://github.com/NielsBongers/neutron-transport-monte-carlo/actions/workflows/rust.yml/badge.svg?branch=dev&event=push)
+
 
 
 ## Overview 
