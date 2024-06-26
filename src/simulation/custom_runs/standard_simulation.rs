@@ -53,8 +53,9 @@ pub fn standard_simulation() -> Simulation {
     );
 
     let neutron_diagnostics: NeutronDiagnostics = NeutronDiagnostics::new(
-        simulation_parameters.track_creation,
+        simulation_parameters.estimate_k,
         simulation_parameters.track_bins,
+        simulation_parameters.track_fission_positions,
         simulation_parameters.track_from_generation,
         bin_parameters,
         simulation_parameters.initial_neutron_count,

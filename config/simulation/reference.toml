@@ -12,13 +12,15 @@ neutron_generation_cap = 2000
 neutron_count_cap = 10000
 initial_neutron_count = 100
 enforce_maximum_neutron_count = false
-track_creation = true
+neutron_fission_count_cap = 100000000
+estimate_k = true
+track_fission_positions = false 
 track_bins = false
 plot_geometry = false 
 maximum_neutron_energy_difference = 0.01 
 geometries_path = ""
 neutron_initial_position = { x = 0.0, y = 0.0, z = 0.0 }
-track_from_generation = 1 # Generation from which to start tracking results. 
+track_from_generation = 5 # Generation from which to start tracking results. 
 write_results = true # Calculates everything but does not write any results to diagnostics file except the simulation report. 
 model_heat_diffusion = false 
 neutron_multiplier = 0

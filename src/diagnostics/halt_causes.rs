@@ -7,6 +7,7 @@ pub enum SimulationHaltCauses {
     HitNeutronCap,
     HitGenerationCap,
     NoNeutrons,
+    HitFissionCap,
 }
 
 impl fmt::Display for SimulationHaltCauses {
@@ -21,6 +22,9 @@ impl fmt::Display for SimulationHaltCauses {
             }
             SimulationHaltCauses::NoNeutrons => {
                 write!(f, "No neutrons.")
+            }
+            SimulationHaltCauses::HitFissionCap => {
+                write!(f, "Fission cap.")
             }
         }
     }

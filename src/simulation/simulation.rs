@@ -1,3 +1,4 @@
+use crate::diagnostics::halt_causes::SimulationHaltCauses;
 use crate::neutrons::neutron_dynamics::InteractionTypes;
 use crate::neutrons::Neutron;
 use crate::simulation::Simulation;
@@ -16,11 +17,9 @@ impl Simulation {
             if self.neutron_scheduler.is_empty() {
                 // debug!("No more neutrons.");
                 self.neutron_diagnostics.track_simulation_halt(
-                    0 as i64,
                     tracked_neutron_generation as i64,
-                    self.simulation_parameters.neutron_generation_cap,
-                    self.simulation_parameters.neutron_count_cap,
                     self.neutron_scheduler.neutron_generation_history.clone(),
+                    SimulationHaltCauses::NoNeutrons,
                 );
                 return false;
             }
@@ -95,6 +94,10 @@ impl Simulation {
                     // debug!("Fissioning");
                     self.neutron_diagnostics
                         .track_neutron_bin_fission(neutron.generation_number, neutron.position);
+                    self.neutron_diagnostics.track_neutron_location_fission(
+                        neutron.generation_number,
+                        neutron.position,
+                    );
 
                     let fission_count: i32 = neutron
                         .get_neutron_fission_count(material_properties.nu_bar, &mut self.rng);
@@ -110,8 +113,6 @@ impl Simulation {
                     self.neutron_scheduler.remove_neutron(0);
 
                     for _ in 0..fission_count {
-                        self.neutron_diagnostics
-                            .track_creation(new_neutron.generation_number);
                         self.neutron_scheduler.add_neutron(new_neutron.clone());
                     }
                     break;
@@ -132,22 +133,29 @@ impl Simulation {
                 && !self.simulation_parameters.enforce_maximum_neutron_count
             {
                 self.neutron_diagnostics.track_simulation_halt(
-                    total_neutron_count as i64,
                     tracked_neutron_generation as i64,
-                    self.simulation_parameters.neutron_generation_cap,
-                    self.simulation_parameters.neutron_count_cap,
                     self.neutron_scheduler.neutron_generation_history.clone(),
+                    SimulationHaltCauses::HitNeutronCap,
                 );
                 return true;
             }
 
             if tracked_neutron_generation > self.simulation_parameters.neutron_generation_cap {
                 self.neutron_diagnostics.track_simulation_halt(
-                    total_neutron_count as i64,
                     tracked_neutron_generation as i64,
-                    self.simulation_parameters.neutron_generation_cap,
-                    self.simulation_parameters.neutron_count_cap,
                     self.neutron_scheduler.neutron_generation_history.clone(),
+                    SimulationHaltCauses::HitGenerationCap,
+                );
+                return true;
+            }
+
+            if self.neutron_diagnostics.get_total_fissions()
+                > self.simulation_parameters.neutron_fission_count_cap
+            {
+                self.neutron_diagnostics.track_simulation_halt(
+                    tracked_neutron_generation as i64,
+                    self.neutron_scheduler.neutron_generation_history.clone(),
+                    SimulationHaltCauses::HitFissionCap,
                 );
                 return true;
             }

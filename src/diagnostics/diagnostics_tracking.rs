@@ -14,8 +14,9 @@ impl BinData {
 
 impl NeutronDiagnostics {
     pub fn new(
-        track_creation: bool,
+        estimate_k: bool,
         track_bins: bool,
+        track_fission_positions: bool,
         track_from_generation: i64,
         bin_parameters: GeometryDiagnostics,
         initial_neutron_count: i64,
@@ -37,11 +38,10 @@ impl NeutronDiagnostics {
         let average_power: f64 = 0.0;
 
         NeutronDiagnostics {
-            generation_number: Vec::<i64>::new(),
             neutron_generation_history: Vec::<i64>::new(),
             bin_parameters,
             neutron_position_bins,
-            track_creation,
+            estimate_k,
             track_bins,
             max_generation_value,
             averaged_k,
@@ -51,13 +51,13 @@ impl NeutronDiagnostics {
             total_fissions,
             track_from_generation,
             power_generated: average_power,
+            neutron_fission_locations: Vec::<Vec3D>::new(),
+            track_fission_positions,
         }
     }
 
-    pub fn track_creation(&mut self, generation_number: i64) {
-        if self.track_creation && generation_number >= self.track_from_generation {
-            self.generation_number.push(generation_number);
-        }
+    pub fn get_total_fissions(&self) -> i64 {
+        self.neutron_fission_locations.len() as i64
     }
 
     pub fn get_current_bin(&self, neutron_position: Vec3D) -> Option<usize> {
@@ -87,6 +87,16 @@ impl NeutronDiagnostics {
         None
     }
 
+    pub fn track_neutron_location_fission(
+        &mut self,
+        generation_number: i64,
+        neutron_position: Vec3D,
+    ) {
+        if self.track_fission_positions && generation_number >= self.track_from_generation {
+            self.neutron_fission_locations.push(neutron_position);
+        }
+    }
+
     pub fn track_neutron_bin_presence(&mut self, generation_number: i64, neutron_position: Vec3D) {
         if self.track_bins && generation_number >= self.track_from_generation {
             if let Some(current_bin) = self.get_current_bin(neutron_position) {
@@ -105,23 +115,13 @@ impl NeutronDiagnostics {
 
     pub fn track_simulation_halt(
         &mut self,
-        total_neutron_count: i64,
         neutron_generation: i64,
-        neutron_generation_cap: i64,
-        neutron_count_cap: i64,
         neutron_generation_history: Vec<i64>,
+        halt_cause: SimulationHaltCauses,
     ) {
         self.neutron_generation_history = neutron_generation_history;
-
-        if total_neutron_count > neutron_count_cap {
-            self.halt_cause = SimulationHaltCauses::HitNeutronCap;
-        }
-        if neutron_generation > neutron_generation_cap {
-            self.halt_cause = SimulationHaltCauses::HitGenerationCap;
-        }
-        if total_neutron_count == 0 {
-            self.halt_cause = SimulationHaltCauses::NoNeutrons;
-        }
+        self.total_neutrons_tracked = self.neutron_generation_history.iter().sum();
+        self.halt_cause = halt_cause;
         self.max_generation_value = neutron_generation;
     }
 }

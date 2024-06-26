@@ -69,6 +69,7 @@ impl NeutronDiagnostics {
 - Settings - 
 {: <30}{:>20}\n\
 {: <30}{:>20}\n\
+{: <30}{:>20}\n\
 ",
             "Duration:",
             formatted_duration,
@@ -88,10 +89,12 @@ impl NeutronDiagnostics {
             self.power_generated,
             "Halt cause: ",
             self.halt_cause,
-            "Track creation:",
-            self.track_creation,
+            "Estimate k:",
+            self.estimate_k,
             "Track bins:",
             self.track_bins,
+            "Track fission positions:",
+            self.track_fission_positions,
         );
 
         simulation_report
@@ -116,13 +119,13 @@ impl NeutronDiagnostics {
             Ok(_) => debug!("Successfully created directory {}", dir_path),
         }
 
-        self.estimate_k();
+        if self.estimate_k {
+            self.estimate_k();
+        }
 
-        self.total_fissions = self
-            .neutron_position_bins
-            .iter()
-            .map(|bin_data| bin_data.fission_count)
-            .sum();
+        if self.track_fission_positions {
+            self.total_fissions = self.get_total_fissions();
+        }
 
         if write_results {
             if !self.neutron_generation_history.is_empty() {
@@ -153,6 +156,29 @@ impl NeutronDiagnostics {
                     &self.neutron_position_bins,
                     &format!("{}/bin_results_grid.csv", dir_path),
                 );
+            }
+
+            if !self.neutron_fission_locations.is_empty() {
+                let mut fission_locations_file = OpenOptions::new()
+                    .create(true)
+                    .append(true)
+                    .open(format!("{}/fission_locations.csv", dir_path))
+                    .expect("Opening generation fission locations file.");
+
+                fission_locations_file
+                    .write("x,y,z\n".as_bytes())
+                    .expect("Writing fission locations headers.");
+
+                for fission_location in self.neutron_fission_locations.iter() {
+                    let write_string = format!(
+                        "{},{},{}\n",
+                        fission_location.x, fission_location.y, fission_location.z
+                    );
+
+                    fission_locations_file
+                        .write(write_string.as_bytes())
+                        .expect("Writing fission locations to file.");
+                }
             }
         }
 

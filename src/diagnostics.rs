@@ -1,5 +1,6 @@
 use crate::diagnostics::geometry_diagnostics::GeometryDiagnostics;
 use crate::diagnostics::halt_causes::SimulationHaltCauses;
+use crate::utils::vectors::Vec3D;
 use serde::{Deserialize, Serialize};
 
 /// Post-processing collected data.
@@ -23,20 +24,24 @@ pub struct BinData {
 
 #[derive(Default)]
 pub struct NeutronDiagnostics {
-    pub generation_number: Vec<i64>,
     pub neutron_generation_history: Vec<i64>,
     pub neutron_position_bins: Vec<BinData>,
+    pub neutron_fission_locations: Vec<Vec3D>,
 
     pub bin_parameters: GeometryDiagnostics,
-    pub track_creation: bool,
+
+    pub estimate_k: bool,
     pub track_bins: bool,
+    pub track_fission_positions: bool,
+
     pub track_from_generation: i64,
 
     pub max_generation_value: i64,
     pub averaged_k: f64,
     pub halt_cause: SimulationHaltCauses,
+
     pub initial_neutron_count: i64,
     pub total_neutrons_tracked: i64,
-    pub total_fissions: i32,
+    pub total_fissions: i64,
     pub power_generated: f64,
 }

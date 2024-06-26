@@ -7,20 +7,25 @@ simulations_per_thread = 1
 [simulation_parameters]
 # Neutron settings
 neutron_initial_position = { x = 0.05, y = 0.3, z = -0.5 }
-neutron_generation_cap = 100                    # Maximum number of generations: simulated will be halted. 
+neutron_generation_cap = 10000                  # Maximum number of generations: simulated will be halted. 
 neutron_count_cap = 5000                        # Maximum number of neutrons: simulated will be halted unless enforce_maximum_neutron_count is true. 
+neutron_fission_count_cap = 100000              # Halts the simulation when this number of fissions have been recorded. Requires track_fission_positions. 
+halt_time = 1e-5                                # Removes any neutron after this time. Useful for power estimation. 
+
 initial_neutron_count = 1000                    # Initial number of neutrons. 
 maximum_neutron_energy_difference = 0.01        # Maximum energy difference from elastic collisions before the material properties are updated. 
-enforce_maximum_neutron_count = false           # Removes any neutrons beyond neutron_count_cap. Useful for power estimation. 
-halt_time = 1e-5                                # Removes any neutron after this time. Useful for power estimation. 
+
+enforce_maximum_neutron_count = true            # Removes any neutrons beyond neutron_count_cap. Useful for power and distribution estimation. 
+
 track_from_generation = 5                       # Generation from which to start tracking results. Reduces initialization bias. 
 
 # Geometries 
 geometries_path = 'config/geometries/working_reactor.toml'
 
 # Diagnostics
-track_creation = true                           # Tracks creation of neutrons per generation. Required for k-estimation. 
-track_bins = false                               # Tracks presence and fission events. Required for tracking total number of fission events. 
+estimate_k = true                               # Estimates the neutron multiplication factor. 
+track_fission_positions = true                  # Tracks exact positions of fission events. Useful for heat diffusion simulations. 
+track_bins = false                              # Tracks presence and fission events. 
 plot_geometry = false                           # Plotting the geometry in a format that ParaView can load in as a CSV. 
 write_results = true                            # Calculates everything but does not write any results to diagnostics file except the simulation report if set to false. 
 

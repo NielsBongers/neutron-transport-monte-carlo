@@ -2,7 +2,8 @@ use crate::diagnostics::NeutronDiagnostics;
 use log::warn;
 
 impl NeutronDiagnostics {
-    /// Estimates the multiplication coefficient _k_ based on data collected in ```generation_number``` during a simulation run.
+    /// Estimates the multiplication coefficient _k_ based on data collected in the neutron scheduler during a simulation run.
+    /// At the end of the simulation, this vector is passed from the scheduler to diagnostics via ```track_simulation_halt```.
     pub fn estimate_k(&mut self) -> Option<(f64, Vec<i64>)> {
         let maximum_generation = self.neutron_generation_history.len();
 
