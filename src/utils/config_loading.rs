@@ -29,8 +29,6 @@ pub struct SimulationParametersTOML {
     pub initial_neutron_count: i64,
     pub enforce_maximum_neutron_count: bool,
     pub track_creation: bool,
-    pub track_positions: bool,
-    pub track_energies: bool,
     pub track_bins: bool,
     pub track_from_generation: i64,
     pub plot_geometry: bool,

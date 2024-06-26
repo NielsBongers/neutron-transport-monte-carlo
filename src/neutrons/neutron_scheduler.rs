@@ -11,6 +11,8 @@ pub struct NeutronScheduler {
     pub neutron_queue_a: Vec<Neutron>,
     pub neutron_queue_b: Vec<Neutron>,
 
+    pub neutron_generation_history: Vec<i64>,
+
     pub queue_selector: bool,
 
     pub maximum_neutrons_per_generation: i64,
@@ -58,6 +60,11 @@ impl NeutronScheduler {
         }
     }
 
+    pub fn track_neutron_population_history(&mut self) {
+        let current_neutron_count = self.total_neutron_count();
+        self.neutron_generation_history.push(current_neutron_count);
+    }
+
     pub fn check_queue_flip(&mut self, rng: &mut rand::rngs::SmallRng) {
         let neutron_count_current_queue = match self.queue_selector {
             false => self.neutron_queue_a.len(),
@@ -66,6 +73,8 @@ impl NeutronScheduler {
 
         if neutron_count_current_queue == 0 {
             self.queue_selector = !self.queue_selector;
+
+            self.track_neutron_population_history();
 
             if self.current_neutron_count() > self.maximum_neutrons_per_generation
                 && self.enforce_maximum_neutron_count
@@ -81,10 +90,12 @@ impl NeutronScheduler {
     pub fn get_neutron(&mut self, rng: &mut rand::rngs::SmallRng) -> &mut Neutron {
         self.check_queue_flip(rng);
 
-        match self.queue_selector {
+        let neutron = match self.queue_selector {
             false => &mut self.neutron_queue_a[0],
             true => &mut self.neutron_queue_b[0],
-        }
+        };
+
+        neutron
     }
 
     pub fn is_empty(&self) -> bool {

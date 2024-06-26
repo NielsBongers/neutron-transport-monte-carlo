@@ -20,6 +20,7 @@ impl Simulation {
                     tracked_neutron_generation as i64,
                     self.simulation_parameters.neutron_generation_cap,
                     self.simulation_parameters.neutron_count_cap,
+                    self.neutron_scheduler.neutron_generation_history.clone(),
                 );
                 return false;
             }
@@ -41,13 +42,6 @@ impl Simulation {
                 neutron.translate();
 
                 // Applying diagnostics.
-                self.neutron_diagnostics.track_neutron_energies(
-                    neutron.generation_number,
-                    neutron.current_time,
-                    neutron.energy,
-                );
-                self.neutron_diagnostics
-                    .track_neutron_position(neutron.generation_number, neutron.position);
                 self.neutron_diagnostics
                     .track_neutron_bin_presence(neutron.generation_number, neutron.position);
 
@@ -116,10 +110,8 @@ impl Simulation {
                     self.neutron_scheduler.remove_neutron(0);
 
                     for _ in 0..fission_count {
-                        self.neutron_diagnostics.track_creation(
-                            new_neutron.creation_time,
-                            new_neutron.generation_number,
-                        );
+                        self.neutron_diagnostics
+                            .track_creation(new_neutron.generation_number);
                         self.neutron_scheduler.add_neutron(new_neutron.clone());
                     }
                     break;
@@ -144,6 +136,7 @@ impl Simulation {
                     tracked_neutron_generation as i64,
                     self.simulation_parameters.neutron_generation_cap,
                     self.simulation_parameters.neutron_count_cap,
+                    self.neutron_scheduler.neutron_generation_history.clone(),
                 );
                 return true;
             }
@@ -154,6 +147,7 @@ impl Simulation {
                     tracked_neutron_generation as i64,
                     self.simulation_parameters.neutron_generation_cap,
                     self.simulation_parameters.neutron_count_cap,
+                    self.neutron_scheduler.neutron_generation_history.clone(),
                 );
                 return true;
             }

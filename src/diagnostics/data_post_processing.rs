@@ -4,42 +4,38 @@ use log::warn;
 impl NeutronDiagnostics {
     /// Estimates the multiplication coefficient _k_ based on data collected in ```generation_number``` during a simulation run.
     pub fn estimate_k(&mut self) -> Option<(f64, Vec<i64>)> {
-        let max_generation_value: &i64 = self.generation_number.iter().max().unwrap_or(&0);
+        let maximum_generation = self.neutron_generation_history.len();
 
-        if max_generation_value < &4 {
-            warn!(
-                "Too few datapoints: {}. Need at least 3 generations.",
-                max_generation_value
-            );
+        if (maximum_generation as i64) < self.track_from_generation {
+            warn!("Only {} generations available while tracking starts at {}. k-estimation will be skipped.", maximum_generation, self.track_from_generation);
             return None;
         }
 
-        let mut generation_count_vector: Vec<i64> = vec![0; *max_generation_value as usize];
-        for neutron_generation_data in &self.generation_number {
-            generation_count_vector[(*neutron_generation_data - 1) as usize] += 1;
+        if maximum_generation < 4 {
+            warn!(
+                "Only {} generations recorded - k-estimation may be inaccurate.",
+                maximum_generation
+            );
         }
 
-        self.generation_counts = generation_count_vector.clone();
-        self.total_neutrons_tracked = self.generation_counts.iter().sum();
+        let mut k_estimate_vector = Vec::<f64>::new();
 
-        let mut total_k_sum: f64 = 0.0;
-        let mut k_sample_count: i64 = 0;
-
-        for generation_index in
-            (self.track_from_generation as usize + 1)..generation_count_vector.len()
+        for generation_count_window in
+            self.neutron_generation_history[(self.track_from_generation as usize)..].windows(2)
         {
-            let k_estimate: f64 = generation_count_vector[generation_index] as f64
-                / generation_count_vector[generation_index - 1] as f64;
+            let previous_generation_count = generation_count_window[0];
+            let current_generation_count = generation_count_window[1];
 
-            total_k_sum += k_estimate;
-            k_sample_count += 1;
+            let k_estimate = (current_generation_count as f64) / (previous_generation_count as f64);
+
+            k_estimate_vector.push(k_estimate);
         }
 
-        let averaged_k: f64 = total_k_sum / k_sample_count as f64;
+        let averaged_k: f64 =
+            k_estimate_vector.iter().sum::<f64>() / k_estimate_vector.len() as f64;
 
-        // debug!("Averaged k = {:.2}", averaged_k);
         self.averaged_k = averaged_k;
 
-        Some((averaged_k, generation_count_vector))
+        Some((averaged_k, self.neutron_generation_history.clone()))
     }
 }

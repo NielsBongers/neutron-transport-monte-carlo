@@ -69,8 +69,6 @@ impl NeutronDiagnostics {
 - Settings - 
 {: <30}{:>20}\n\
 {: <30}{:>20}\n\
-{: <30}{:>20}\n\
-{: <30}{:>20}\n\
 ",
             "Duration:",
             formatted_duration,
@@ -92,10 +90,6 @@ impl NeutronDiagnostics {
             self.halt_cause,
             "Track creation:",
             self.track_creation,
-            "Track positions:",
-            self.track_positions,
-            "Track energies:",
-            self.track_energies,
             "Track bins:",
             self.track_bins,
         );
@@ -131,54 +125,7 @@ impl NeutronDiagnostics {
             .sum();
 
         if write_results {
-            if !self.creation_times.is_empty() {
-                let mut creation_file = OpenOptions::new()
-                    .create(true)
-                    .append(true)
-                    .open(format!("{}/creation_results.csv", dir_path))
-                    .expect("Creating file to write diagnostics results to.");
-
-                creation_file
-                    .write("creation_time,generation_number\n".as_bytes())
-                    .expect("Writing diagnostics headers.");
-
-                for (creation_time, generation_number) in self
-                    .creation_times
-                    .iter()
-                    .zip(self.generation_number.iter())
-                {
-                    let write_string = format!("{},{}\n", creation_time, generation_number);
-
-                    creation_file
-                        .write(write_string.as_bytes())
-                        .expect("Writing diagnostics to file.");
-                }
-            }
-
-            if !self.neutron_positions.is_empty() {
-                let mut position_file = OpenOptions::new()
-                    .create(true)
-                    .append(true)
-                    .open(format!("{}/position_results.csv", dir_path))
-                    .expect("Opening neutron position data file.");
-
-                position_file
-                    .write("x,y,z\n".as_bytes())
-                    .expect("Writing neutron position data headers.");
-
-                for neutron_position in self.neutron_positions.iter() {
-                    let write_string = format!(
-                        "{:.5},{:.5},{:.5}\n",
-                        neutron_position.x, neutron_position.y, neutron_position.z
-                    );
-
-                    position_file
-                        .write(write_string.as_bytes())
-                        .expect("Writing neutron position to file");
-                }
-            }
-
-            if !self.generation_counts.is_empty() {
+            if !self.neutron_generation_history.is_empty() {
                 let mut generation_counts_file = OpenOptions::new()
                     .create(true)
                     .append(true)
@@ -189,35 +136,14 @@ impl NeutronDiagnostics {
                     .write("generation,generation_counts\n".as_bytes())
                     .expect("Writing generation counts headers.");
 
-                for (generation, generation_count) in self.generation_counts.iter().enumerate() {
+                for (generation, generation_count) in
+                    self.neutron_generation_history.iter().enumerate()
+                {
                     let write_string = format!("{},{}\n", generation, generation_count,);
 
                     generation_counts_file
                         .write(write_string.as_bytes())
                         .expect("Writing generation count to file.");
-                }
-            }
-
-            if !self.neutron_energies.is_empty() {
-                let mut neutron_energies_file = OpenOptions::new()
-                    .create(true)
-                    .append(true)
-                    .open(format!("{}/neutron_energies.csv", dir_path))
-                    .expect("Opening neutron energies file.");
-
-                neutron_energies_file
-                    .write("iteration,timestamp,neutron_energy\n".as_bytes())
-                    .expect("Writing neutron energies headers.");
-
-                for (generation, (timestamp, neutron_energy)) in
-                    self.neutron_energies.iter().enumerate()
-                {
-                    let write_string =
-                        format!("{},{},{}\n", generation, timestamp, neutron_energy,);
-
-                    neutron_energies_file
-                        .write(write_string.as_bytes())
-                        .expect("Writing neutron energies to file.");
                 }
             }
 

@@ -11,7 +11,7 @@ neutron_generation_cap = 100                    # Maximum number of generations:
 neutron_count_cap = 5000                        # Maximum number of neutrons: simulated will be halted unless enforce_maximum_neutron_count is true. 
 initial_neutron_count = 1000                    # Initial number of neutrons. 
 maximum_neutron_energy_difference = 0.01        # Maximum energy difference from elastic collisions before the material properties are updated. 
-enforce_maximum_neutron_count = false            # Removes any neutrons beyond neutron_count_cap. Useful for power estimation. 
+enforce_maximum_neutron_count = false           # Removes any neutrons beyond neutron_count_cap. Useful for power estimation. 
 halt_time = 1e-5                                # Removes any neutron after this time. Useful for power estimation. 
 track_from_generation = 5                       # Generation from which to start tracking results. Reduces initialization bias. 
 
@@ -20,9 +20,7 @@ geometries_path = 'config/geometries/working_reactor.toml'
 
 # Diagnostics
 track_creation = true                           # Tracks creation of neutrons per generation. Required for k-estimation. 
-track_positions = false                         # Track all neutron positions. 
-track_energies = false                          # Track neutron energies. 
-track_bins = true                               # Tracks presence and fission events. Required for tracking total number of fission events. 
+track_bins = false                               # Tracks presence and fission events. Required for tracking total number of fission events. 
 plot_geometry = false                           # Plotting the geometry in a format that ParaView can load in as a CSV. 
 write_results = true                            # Calculates everything but does not write any results to diagnostics file except the simulation report if set to false. 
 
@@ -30,7 +28,7 @@ write_results = true                            # Calculates everything but does
 model_heat_diffusion = false                    # Simulating heat diffusion using the calculated bins. 
 
 [heat_diffusion_parameters]
-source_data_file = 'path/to/source/'
+source_data_file = 'D:\Desktop\nuclear-rust\results\diagnostics\aggregated_runs\2024-05-04_10-48-54.405686700\neutron_bin_results.csv'
 neutron_multiplier = 5.5e4                      # Neutron multiplier for the heat diffusion. 
 convective_heat_transfer_coefficient = 14349    # Based on Nusselt for a flat plate, spacing of 1.5 cm. 
 thermal_conductivity = 27.0                     # Thermal conductivity. 
@@ -43,13 +41,13 @@ write_interval = 100                            # Iterations.
 
 
 [bin_parameters]
-center = { x = 0.05, y = 0.3, z = -0.5 }
-length_count = 7
-depth_count = 40
-height_count = 40
-total_length = 0.07
-total_depth = 0.40
-total_height = 0.40
+center = { x = 0.0, y = 0.0, z = 0.0 }
+length_count = 200
+depth_count = 200
+height_count = 200
+total_length = 2
+total_depth = 2
+total_height = 2
 
 [plot_parameters]
 center = { x = 0.0, y = 0.0, z = 0.0 }
