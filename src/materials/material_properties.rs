@@ -22,11 +22,11 @@ pub enum MaterialNames {
     Void,
     H1,
     Be9,
+    B10,
     O16,
     Fe54,
     U235,
     U238,
-    B10,
 }
 
 /// Mapping between the enum and indices.
@@ -35,11 +35,11 @@ pub fn map_enum_to_indices(material_name: &MaterialNames) -> usize {
         MaterialNames::Void => 0,
         MaterialNames::H1 => 1,
         MaterialNames::Be9 => 2,
-        MaterialNames::O16 => 3,
-        MaterialNames::Fe54 => 4,
-        MaterialNames::U235 => 5,
-        MaterialNames::U238 => 6,
-        MaterialNames::B10 => 7,
+        MaterialNames::B10 => 3,
+        MaterialNames::O16 => 4,
+        MaterialNames::Fe54 => 5,
+        MaterialNames::U235 => 6,
+        MaterialNames::U238 => 7,
     }
 }
 
@@ -49,11 +49,11 @@ pub fn map_indices_to_enum(material_index: usize) -> MaterialNames {
         0 => MaterialNames::Void,
         1 => MaterialNames::H1,
         2 => MaterialNames::Be9,
-        3 => MaterialNames::O16,
-        4 => MaterialNames::Fe54,
-        5 => MaterialNames::U235,
-        6 => MaterialNames::U238,
-        7 => MaterialNames::B10,
+        3 => MaterialNames::B10,
+        4 => MaterialNames::O16,
+        5 => MaterialNames::Fe54,
+        6 => MaterialNames::U235,
+        7 => MaterialNames::U238,
         _ => MaterialNames::Void,
     }
 }
@@ -141,14 +141,14 @@ pub fn get_material_data_vector() -> Vec<MaterialData> {
     let void = MaterialData::get_void();
     let h1 = MaterialData::get_h1();
     let be9 = MaterialData::get_be9();
+    let b10 = MaterialData::get_b10();
     let o16 = MaterialData::get_o16();
     let fe54 = MaterialData::get_fe54();
     let u235 = MaterialData::get_u235();
     let u238 = MaterialData::get_u238();
-    let b10 = MaterialData::get_b10();
 
     // Setting void as index 0, so the default option.
-    let material_data_vector: Vec<MaterialData> = vec![void, h1, be9, o16, fe54, u235, u238, b10];
+    let material_data_vector: Vec<MaterialData> = vec![void, h1, be9, b10, o16, fe54, u235, u238];
 
     material_data_vector
 }

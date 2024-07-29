@@ -1,5 +1,6 @@
 use crate::materials::material_properties::{MaterialData, MaterialNames};
 use crate::utils::data_loading::load_cross_sections;
+use std::path::Path;
 
 impl MaterialData {
     pub fn get_h1() -> MaterialData {
@@ -8,11 +9,11 @@ impl MaterialData {
 
         // Scattering
         let (energy_scattering_cross_sections, elastic_cross_sections) =
-            load_cross_sections("data/h-1/h-1_aggregated_scattering.csv");
+            load_cross_sections(Path::new("data/h-1/h-1_aggregated_scattering.csv"));
 
         // Absorption
         let (energy_absorption_cross_sections, absorption_cross_sections) =
-            load_cross_sections("data/h-1/h-1_aggregated_absorption.csv");
+            load_cross_sections(Path::new("data/h-1/h-1_aggregated_absorption.csv"));
 
         // Nu bar
         let (energy_nu_bar, nu_bar) = (vec![0.0], vec![0.0]);
@@ -29,6 +30,11 @@ impl MaterialData {
 
         let name: MaterialNames = MaterialNames::H1;
         let atomic_mass = 1.;
+
+        let thermal_conductivity = 0.0;
+        let density = 0.0;
+        let specific_heat = 0.0;
+
         let fissionable: bool = false;
 
         MaterialData {
@@ -50,6 +56,11 @@ impl MaterialData {
 
             number_density,
             atomic_mass,
+
+            thermal_conductivity,
+            density,
+            heat_capacity: specific_heat,
+
             name,
             fissionable,
         }

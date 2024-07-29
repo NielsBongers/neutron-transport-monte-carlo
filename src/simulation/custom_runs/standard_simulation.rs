@@ -1,56 +1,38 @@
 use crate::diagnostics::geometry_diagnostics::GeometryDiagnostics;
-use crate::diagnostics::plotting::plot_geometry;
 use crate::diagnostics::NeutronDiagnostics;
 use crate::geometry::components::Components;
 use crate::materials::material_properties::get_material_data_vector;
 use crate::neutrons::neutron_scheduler::NeutronScheduler;
 use crate::simulation::Simulation;
+use crate::utils::config_loading::GridBinParametersTOML;
 
 use crate::utils::config_loading::load_config;
 use crate::utils::parts_loading::load_geometries;
 
 use rand::rngs::SmallRng;
 use rand::SeedableRng;
+use std::path::Path;
 
 use log::info;
 
-pub fn standard_simulation() -> Simulation {
+pub fn create_simulation() -> Simulation {
     // Creating the RNG object.
     let rng = SmallRng::from_entropy();
 
     // Loading config
-    let config = load_config("config/simulation/default.toml");
+    let config = load_config(Path::new("config/simulation/default.toml"));
     let simulation_parameters: crate::utils::config_loading::SimulationParametersTOML =
         config.simulation_parameters;
-    let bin_parameters: crate::utils::config_loading::BinParametersTOML = config.bin_parameters;
-    let plot_parameters: crate::utils::config_loading::PlotParametersTOML = config.plot_parameters;
+    let neutron_bin_parameters: GridBinParametersTOML = config.neutron_bins;
 
     // Required structs.
     let material_data_vector = get_material_data_vector();
-    let parts_vector = load_geometries(&simulation_parameters.geometries_path);
+    let parts_vector = load_geometries(Path::new(&simulation_parameters.geometries_path));
     let components: Components = Components::new(material_data_vector, parts_vector);
     components.check_material_fractions_sum();
     let neutron_scheduler: NeutronScheduler = NeutronScheduler::default();
 
-    let bin_parameters = GeometryDiagnostics::new(
-        bin_parameters.length_count,
-        bin_parameters.depth_count,
-        bin_parameters.height_count,
-        bin_parameters.center,
-        bin_parameters.total_length,
-        bin_parameters.total_depth,
-        bin_parameters.total_height,
-    );
-
-    let plot_parameters = GeometryDiagnostics::new(
-        plot_parameters.length_count,
-        plot_parameters.depth_count,
-        plot_parameters.height_count,
-        plot_parameters.center,
-        plot_parameters.total_length,
-        plot_parameters.total_depth,
-        plot_parameters.total_height,
-    );
+    let bin_parameters = GeometryDiagnostics::new(neutron_bin_parameters);
 
     let neutron_diagnostics: NeutronDiagnostics = NeutronDiagnostics::new(
         simulation_parameters.estimate_k,
@@ -62,7 +44,7 @@ pub fn standard_simulation() -> Simulation {
     );
 
     // Instantiating simulation.
-    let mut simulation: Simulation = Simulation {
+    let simulation: Simulation = Simulation {
         rng,
         components,
         neutron_scheduler,
@@ -70,11 +52,11 @@ pub fn standard_simulation() -> Simulation {
         simulation_parameters,
     };
 
-    // Optionally plotting.
-    if simulation.simulation_parameters.plot_geometry {
-        plot_geometry(&mut simulation, plot_parameters);
-        return simulation;
-    }
+    simulation
+}
+
+pub fn standard_simulation(simulation_index: i64, maximum_simulation_index: i64) -> Simulation {
+    let mut simulation = create_simulation();
 
     // Running the simulation and tracking time.
     use std::time::Instant;
@@ -83,7 +65,10 @@ pub fn standard_simulation() -> Simulation {
 
     let simulation_duration = now.elapsed();
 
-    info!("Completed simulation - continuing with diagnostics.");
+    info!(
+        "Completed simulation {}/{} - continuing with diagnostics.",
+        simulation_index, maximum_simulation_index
+    );
 
     // Diagnostics
     simulation.neutron_diagnostics.write_data(

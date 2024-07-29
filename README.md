@@ -1,14 +1,10 @@
 # Neutron Transport Monte Carlo 
 
-![Rust Main](https://github.com/NielsBongers/neutron-transport-monte-carlo/actions/workflows/rust.yml/badge.svg?branch=main&event=push)
-
-
-
 ## Overview 
 
 This is an energy-dependent neutron transport Monte Carlo simulation developed entirely in Rust, which can be used to design and simulate simple nuclear reactors. 
 
-<img src="figures/03052024 - Neutron Monte Carlo - ParaView - k=1 reactor with control rods, stretched.png" width="400" alt="ParaView visualization of a reactor consisting of five 94% U-235 plates.">
+<img src="figures/03052024 - Neutron Monte Carlo - ParaView - k=1 reactor with control rods, stretched.png" width="600" alt="ParaView visualization of a reactor consisting of five 94% U-235 plates.">
 
 ## Features 
 
@@ -39,7 +35,7 @@ total_height = 2.0
 
 The simulation sums up all neutrons per bin, as well as all fissions per bin, allowing for heat generation modelling. An example with control rods optimized for $k = 1.005$ shows the flux is concentrated in the lower level of the reactor. 
 
-<img src="figures/02052024 - Neutron Monte Carlo - ParaView - k=1.027 reactor with control rods at 1.70.png" width="450" alt="ParaView visualization of a reactor.">
+<img src="figures/02052024 - Neutron Monte Carlo - ParaView - k=1.027 reactor with control rods at 1.70.png" width="400" alt="ParaView visualization of a reactor.">
 
 ### Materials 
 
@@ -93,13 +89,19 @@ Results here are as expected: doubling the number of neutrons doubles the power 
 
 ### Thermal behavior 
 
-Reaching a stable equilibrium where an assembly has $k_\text{prompt} < 1$ and $k \approx 1$ is comparatively easy - a simple bisection search works there, for simple geometries. At that point, an arbitrary total power level/total number of neutrons can be specified, with no change in the neutron distribution. The main power generation constraint in the design of a reactor is then the heat developed in the fuel: this has to be evacuated into the coolant (generally water, optionally boiling, or various gases). If the fuel is too thick and the power level too high, the center of the fuel assemblies will start to melt and deform. 
+Reaching a stable equilibrium where an assembly has $k_\text{prompt} < 1$ and $k \approx 1$ is comparatively easy - a bisection search works there, for simple geometries. At that point, an arbitrary total power level/total number of neutrons can be specified, with no change in the neutron distribution. The main power generation constraint in the design of a reactor is then the heat developed in the fuel: this has to be evacuated into the coolant (generally water, optionally boiling, or various gases). If the fuel is too thick and the power level too high, the center of the fuel assemblies will start to melt and deform. 
 
 To include this in the simulation as an optimization parameter, we use the results for the fission bins per fuel position to derive the heat generation per position at a given total number of neutrons. This can then be scaled to any number of neutrons or power level. That power per position can be used as a source term in a heat diffusion simulation, assuming that all energy from a fission is deposited locally.[^2] 
 
-Rust does not currently have good support for sparse matrix solvers, so that large-scale heat diffusion is difficult to simulate - backward solvers like Crank-Nicolson are difficult to implement on a larger scale without sparse matrices. Therefore, instead, a simple forward method with the finite volume method is used, operating directly on the simulation's power bins. An example of a result of a section of plate, cooled by water, is shown below. This is for the reactor shown in the header image, which produces 7810 W. 
+Rust does not currently have good support for sparse matrix solvers, so that large-scale heat diffusion is difficult to simulate - backward solvers like Crank-Nicolson are difficult to implement on a larger scale without sparse matrices. Therefore, instead, a simple forward method with the finite volume method is used, operating directly on the simulation's power bins. An example of a result of a section of plate, cooled by water, is shown below. This is for the reactor shown in the header image, which produces 123.3 kW. 
 
-<img src="figures/03052024 - Neutron Monte Carlo - plate temperature values at 7810 W.png" width="400" alt="Temperatures in the fuel plates.">
+The mean temperature drops monotonically from the initially specified 600 K (intended to make plotting in ParaView easier), while the maximum in the center of the plates first increases, then decreases as it reaches an equilibrium. 
+
+<img src="figures/29072024 - Neutron Monte Carlo - plate temperatures at around 100 kW.png" width="400" alt="Temperatures in the fuel plates.">
+
+The associated temperature distribution for a cross-section of the plates is shown below, at a higher power level (a $10^6$ multiplier). Variations in the temperatures are caused by local fission intensity differences. 
+
+<img src="figures/29072024 - Neutron Monte Carlo - Complex geometry heat diffusion.png" width="400" alt="Temperature distribution in the fuel plates.">
 
 ### ParaView visualization 
 
@@ -151,6 +153,14 @@ The easiest option to get started is to experiment with the configuration files 
 To gather more data, modify the files under ```src/diagnostics``` and in ```src/simulation/simulation.rs```: the entire simulation loop is created from there. Adding more fields to the simulation struct and tracking those in the main loop is easy. 
 
 Additional energy-dependent material data can be loaded in from ENDFs. Details on this can be found under a [different repository](https://github.com/NielsBongers/endf-handling), created specifically for this project.
+
+## Updates 
+
+### 28-07-2024 - Major changes in heat diffusion code 
+
+The heat diffusion code was completely reworked, resulting in massive speed-ups, and overall far more usable code. The new system works by creating an aggregated CSV file with fission locations, which is then loaded in by the heat diffusion code, distributed over bins, and used as source terms. This is far more flexible and modular than the previous approach where the fission bins were used directly, and boundary conditions determined using those. 
+
+Along side these changes, a lot of the other code was also modified to be easier to use and more efficient, including the general configuration file layout, the multithreaded parts, file writing etc. 
 
 ## Future development 
 

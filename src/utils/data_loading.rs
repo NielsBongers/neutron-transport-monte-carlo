@@ -1,7 +1,10 @@
 use crate::diagnostics::BinData;
+use crate::utils::vectors::Vec3D;
 use csv::ReaderBuilder;
 use serde::Deserialize;
 use std::fs::{self, File};
+use std::io::Read;
+use std::path::Path;
 
 /// Data for the Watt parameters: the energy of the neutron, and the _a_ and _b_ values.
 #[derive(Debug, Deserialize)]
@@ -19,7 +22,7 @@ struct CrossSectionData {
 }
 
 /// Loading Watt parameters from a specified file path.
-pub fn load_watt_parameters(file_path: &str) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
+pub fn load_watt_parameters(file_path: &Path) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
     let csv_data = fs::read_to_string(file_path).expect("Should have been able to read the file");
     let mut reader = ReaderBuilder::new().from_reader(csv_data.as_bytes());
 
@@ -38,7 +41,7 @@ pub fn load_watt_parameters(file_path: &str) -> (Vec<f64>, Vec<f64>, Vec<f64>) {
 }
 
 /// Loading cross-sections from a specified file path.
-pub fn load_cross_sections(file_path: &str) -> (Vec<f64>, Vec<f64>) {
+pub fn load_cross_sections(file_path: &Path) -> (Vec<f64>, Vec<f64>) {
     let csv_data = fs::read_to_string(file_path).expect(&format!(
         "Should have been able to read the file: {:?}",
         file_path
@@ -58,7 +61,7 @@ pub fn load_cross_sections(file_path: &str) -> (Vec<f64>, Vec<f64>) {
 }
 
 /// Loads the bin data vector back into memory by serializing it.
-pub fn load_bin_data_vector(file_path: &str) -> Vec<BinData> {
+pub fn load_bin_data_vector(file_path: &Path) -> Vec<BinData> {
     let file = File::open(file_path).expect("Failed to open source data file.");
 
     let mut serde_reader = csv::Reader::from_reader(file);
@@ -69,4 +72,23 @@ pub fn load_bin_data_vector(file_path: &str) -> Vec<BinData> {
         bin_data_vector.push(record);
     }
     bin_data_vector
+}
+
+pub fn load_fission_vector(file_path: &Path) -> Vec<Vec3D> {
+    let mut fission_file = std::fs::File::open(file_path).expect("Opening neutron fissions file.");
+
+    let mut contents = String::new();
+    fission_file
+        .read_to_string(&mut contents)
+        .expect("Reading neutron fissions file.");
+
+    let mut rdr = csv::Reader::from_reader(contents.as_bytes());
+    let mut fission_vector = Vec::new();
+
+    for result in rdr.deserialize() {
+        let fission_event: Vec3D = result.expect("Deserialization error");
+        fission_vector.push(fission_event);
+    }
+
+    fission_vector
 }

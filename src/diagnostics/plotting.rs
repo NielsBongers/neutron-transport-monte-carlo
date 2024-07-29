@@ -7,6 +7,7 @@ use std::fs;
 use std::fs::create_dir_all;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::process::Command;
 
 pub fn plot_geometry(simulation: &mut Simulation, plot_parameters: GeometryDiagnostics) {
     debug!("Starting geometry plotting.");
@@ -56,6 +57,13 @@ pub fn plot_geometry(simulation: &mut Simulation, plot_parameters: GeometryDiagn
             }
         }
     }
+    let python_csv_vtk_mode = "geometry";
+    Command::new("python3")
+        .arg("scripts/post_processing/csv_to_vtk.py")
+        .arg(python_csv_vtk_mode)
+        .output()
+        .expect("Failed to execute script");
+
     info!("Completed geometry plotting.");
 }
 

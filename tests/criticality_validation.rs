@@ -10,16 +10,17 @@ use nuclear::simulation::Simulation;
 use nuclear::utils::config_loading::load_config;
 use rand::rngs::SmallRng;
 use rand::SeedableRng;
+use std::path::Path;
 
 #[test]
 fn godiva_test() {
     let rng = SmallRng::from_entropy();
 
     // Loading config
-    let config = load_config("config/simulation/reference.toml");
+    let config = load_config(Path::new("config/simulation/reference.toml"));
 
     let simulation_parameters = config.simulation_parameters;
-    let bin_parameters = config.bin_parameters;
+    let neutron_bin_parameters = config.neutron_bins;
 
     // Required structs.
     let components: Components =
@@ -27,15 +28,7 @@ fn godiva_test() {
     components.check_material_fractions_sum();
 
     let neutron_scheduler: NeutronScheduler = NeutronScheduler::default();
-    let bin_parameters = GeometryDiagnostics::new(
-        bin_parameters.length_count,
-        bin_parameters.depth_count,
-        bin_parameters.height_count,
-        bin_parameters.center,
-        bin_parameters.total_length,
-        bin_parameters.total_depth,
-        bin_parameters.total_height,
-    );
+    let bin_parameters = GeometryDiagnostics::new(neutron_bin_parameters);
 
     let neutron_diagnostics: NeutronDiagnostics = NeutronDiagnostics::new(
         simulation_parameters.estimate_k,
@@ -79,10 +72,10 @@ fn infinite_medium_test() {
     let rng = SmallRng::from_entropy();
 
     // Loading config
-    let config = load_config("config/simulation/reference.toml");
+    let config = load_config(Path::new("config/simulation/reference.toml"));
 
     let simulation_parameters = config.simulation_parameters;
-    let bin_parameters = config.bin_parameters;
+    let neutron_bin_parameters = config.neutron_bins;
 
     // Required structs.
     let components: Components =
@@ -90,15 +83,7 @@ fn infinite_medium_test() {
     components.check_material_fractions_sum();
 
     let neutron_scheduler: NeutronScheduler = NeutronScheduler::default();
-    let bin_parameters = GeometryDiagnostics::new(
-        bin_parameters.length_count,
-        bin_parameters.depth_count,
-        bin_parameters.height_count,
-        bin_parameters.center,
-        bin_parameters.total_length,
-        bin_parameters.total_depth,
-        bin_parameters.total_height,
-    );
+    let bin_parameters = GeometryDiagnostics::new(neutron_bin_parameters);
 
     let neutron_diagnostics: NeutronDiagnostics = NeutronDiagnostics::new(
         simulation_parameters.estimate_k,

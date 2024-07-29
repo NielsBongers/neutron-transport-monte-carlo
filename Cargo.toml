@@ -1,6 +1,6 @@
 [package]
 name = "nuclear"
-version = "0.1.0"
+version = "0.2.3"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -9,6 +9,7 @@ edition = "2021"
 chrono = "0.4.31"
 csv="1.1"
 env_logger = "0.11.1"
+indicatif = "0.17.8"
 itertools = "0.12.0"
 log = "0.4.20"
 rand = { version = "0.8.5", features = [ "small_rng" ] }
@@ -17,6 +18,7 @@ toml = "0.8.10"
 
 [profile.release] 
 opt-level=3
+# debug = true
 
 [profile.test] 
 opt-level=3

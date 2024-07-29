@@ -257,7 +257,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -268,7 +269,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+  { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -279,7 +281,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -290,7 +293,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -301,7 +305,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -312,7 +317,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -323,7 +329,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -334,7 +341,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -345,7 +353,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -356,7 +365,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -367,7 +377,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -378,7 +389,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -390,7 +402,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -401,7 +414,8 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5
 
@@ -412,6 +426,7 @@ length = 4.0
 radius = 0.02
 material_name = "B10"
 material_composition_vector = [
-  { material_name = "B10", material_fraction = 1.0 },
+    { material_name = "B10", material_fraction = 0.01 },
+  { material_name = "H1", material_fraction = 0.99 },
 ]
 order = 5

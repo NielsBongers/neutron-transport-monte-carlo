@@ -22,6 +22,11 @@ impl MaterialData {
 
         let name: MaterialNames = MaterialNames::Void;
         let atomic_mass = 0.0;
+
+        let thermal_conductivity = 0.0;
+        let density = 0.0;
+        let specific_heat = 0.0;
+
         let fissionable: bool = false;
 
         MaterialData {
@@ -43,6 +48,11 @@ impl MaterialData {
 
             number_density,
             atomic_mass,
+
+            thermal_conductivity,
+            density,
+            heat_capacity: specific_heat,
+
             name,
             fissionable,
         }

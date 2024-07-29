@@ -5,19 +5,20 @@ use log::{debug, error, info};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::path::Path;
 use std::time::Duration;
 
 impl NeutronDiagnostics {
     pub fn write_simulation_report(
         &mut self,
-        dir_path: &str,
+        dir_path: &Path,
         simulation_duration: Duration,
         halt_time: Option<f64>,
     ) {
         let mut simulation_report = OpenOptions::new()
             .create(true)
             .append(true)
-            .open(format!("{}/simulation_report.dat", dir_path))
+            .open(format!("{}/simulation_report.dat", dir_path.display()))
             .expect("Failed to write simulation report.");
 
         let total_milliseconds = simulation_duration.as_millis();
@@ -44,7 +45,7 @@ impl NeutronDiagnostics {
         let mut power_data = OpenOptions::new()
             .create(true)
             .append(true)
-            .open(format!("{}/power_data.csv", dir_path))
+            .open(format!("{}/power_data.csv", dir_path.display()))
             .expect("Creating file to write diagnostics results to.");
 
         let power_results = format!(
@@ -112,11 +113,12 @@ impl NeutronDiagnostics {
     ) {
         let local_date_time: DateTime<Local> = Local::now();
         let date_time_string = local_date_time.format("%Y-%m-%d_%H-%M-%S.%f").to_string();
-        let dir_path = format!("results/diagnostics/individual_runs/{}", date_time_string);
+        let dir_path_string = format!("results/diagnostics/individual_runs/{}", date_time_string);
+        let dir_path = Path::new(&dir_path_string);
 
         match fs::create_dir_all(&dir_path) {
             Err(why) => error!("! {:?}", why.kind()),
-            Ok(_) => debug!("Successfully created directory {}", dir_path),
+            Ok(_) => debug!("Successfully created directory {}", dir_path.display()),
         }
 
         if self.estimate_k {
@@ -132,7 +134,7 @@ impl NeutronDiagnostics {
                 let mut generation_counts_file = OpenOptions::new()
                     .create(true)
                     .append(true)
-                    .open(format!("{}/generation_counts.csv", dir_path))
+                    .open(format!("{}/generation_counts.csv", dir_path.display()))
                     .expect("Opening generation counts file.");
 
                 generation_counts_file
@@ -154,7 +156,7 @@ impl NeutronDiagnostics {
                 write_bin_results_grid(
                     &self.bin_parameters,
                     &self.neutron_position_bins,
-                    &format!("{}/bin_results_grid.csv", dir_path),
+                    Path::new(&format!("{}/bin_results_grid.csv", dir_path.display())),
                 );
             }
 
@@ -162,7 +164,7 @@ impl NeutronDiagnostics {
                 let mut fission_locations_file = OpenOptions::new()
                     .create(true)
                     .append(true)
-                    .open(format!("{}/fission_locations.csv", dir_path))
+                    .open(format!("{}/fission_locations.csv", dir_path.display()))
                     .expect("Opening generation fission locations file.");
 
                 fission_locations_file

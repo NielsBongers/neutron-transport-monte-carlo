@@ -61,30 +61,7 @@ impl NeutronDiagnostics {
     }
 
     pub fn get_current_bin(&self, neutron_position: Vec3D) -> Option<usize> {
-        if !(neutron_position.x < self.bin_parameters.x_min
-            || neutron_position.x > self.bin_parameters.x_max
-            || neutron_position.y < self.bin_parameters.y_min
-            || neutron_position.y > self.bin_parameters.y_max
-            || neutron_position.z < self.bin_parameters.z_min
-            || neutron_position.z > self.bin_parameters.z_max)
-        {
-            let x_bin = ((neutron_position.x - self.bin_parameters.x_min)
-                / (self.bin_parameters.x_max - self.bin_parameters.x_min)
-                * self.bin_parameters.length_count as f64) as usize;
-            let y_bin = ((neutron_position.y - self.bin_parameters.y_min)
-                / (self.bin_parameters.y_max - self.bin_parameters.y_min)
-                * self.bin_parameters.depth_count as f64) as usize;
-            let z_bin = ((neutron_position.z - self.bin_parameters.z_min)
-                / (self.bin_parameters.z_max - self.bin_parameters.z_min)
-                * self.bin_parameters.height_count as f64) as usize;
-
-            let current_bin = x_bin
-                + y_bin * self.bin_parameters.length_count
-                + z_bin * self.bin_parameters.length_count * self.bin_parameters.depth_count;
-
-            return Some(current_bin);
-        }
-        None
+        self.bin_parameters.get_current_bin(neutron_position)
     }
 
     pub fn track_neutron_location_fission(

@@ -8,8 +8,9 @@ number_threads = 1
 simulations_per_thread = 1
 
 [simulation_parameters]
-neutron_generation_cap = 2000
-neutron_count_cap = 10000
+run_name = 'Reference run'
+neutron_generation_cap = 200
+neutron_count_cap = 100000
 initial_neutron_count = 100
 enforce_maximum_neutron_count = false
 neutron_fission_count_cap = 100000000
@@ -21,23 +22,23 @@ maximum_neutron_energy_difference = 0.01
 geometries_path = ""
 neutron_initial_position = { x = 0.0, y = 0.0, z = 0.0 }
 track_from_generation = 5 # Generation from which to start tracking results. 
-write_results = true # Calculates everything but does not write any results to diagnostics file except the simulation report. 
+write_results = false # Calculates everything but does not write any results to diagnostics file except the simulation report. 
 model_heat_diffusion = false 
 neutron_multiplier = 0
 
 [heat_diffusion_parameters]
 source_data_file = '/path/to/source/result'
+minimum_relevant_property_index = 4 # Minimum property index: anything less than this is considered a boundary condition. 
 neutron_multiplier = 5.5e4 # Neutron multiplier for the heat diffusion. 
 convective_heat_transfer_coefficient = 14349 # Based on Nusselt for a flat plate, spacing of 1.5 cm. 
-thermal_conductivity = 27.0 # Thermal conductivity. 
-density = 17300.0 # Density. 
-heat_capacity = 116.0 # Heat capacity. 
+initial_internal_temperature = 600.0 # Initial material temperature. 
 external_temperature = 293.15 # External temperature applied to the plates. 
-time_step = 0.01 # Time step in the heat diffusion model. 
+t_delta = 0.01 # Time step in the heat diffusion model. 
 t_end = 50.0 # Simulation time (s).
 write_interval = 100 # Iterations. 
+save_files = true # Saving heat diffusion CSVs. 
 
-[bin_parameters]
+[neutron_bins]
 length_count = 200
 depth_count = 200
 height_count = 200
@@ -46,7 +47,7 @@ total_depth = 2.0
 total_height = 2.0
 center = { x = 0.0, y = 0.0, z = 0.0 }
 
-[plot_parameters]
+[geometry_plot_bins]
 center = { x = 0.0, y = 0.0, z = 0.0 }
 length_count = 200
 depth_count = 200
@@ -54,3 +55,12 @@ height_count = 200
 total_length = 2.0
 total_depth = 2.0
 total_height = 2.0
+
+[heat_diffusion_bins]
+center = { x = 0.0, y = 0.0, z = 0.0 }
+length_count = 100
+depth_count = 100
+height_count = 100
+total_length = 2
+total_depth = 2
+total_height = 4

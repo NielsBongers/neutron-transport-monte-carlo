@@ -8,6 +8,7 @@ use crate::geometry::parts::sphere::Sphere;
 use crate::materials::material_properties::MaterialNames;
 use crate::utils::vectors::Vec3D;
 use serde::Deserialize;
+use std::path::Path;
 
 /// Loading in data for cylinders from a TOML.
 #[derive(Deserialize, Debug)]
@@ -52,7 +53,7 @@ struct Objects {
 }
 
 /// Loading geometries from a specified TOML path into a vector, which can then be read by the simulation.
-pub fn load_geometries(toml_path: &String) -> Vec<PartTypes> {
+pub fn load_geometries(toml_path: &Path) -> Vec<PartTypes> {
     let toml_str = fs::read_to_string(toml_path).expect("Failed to read geometries TOML.");
     let objects: Objects =
         toml::from_str(&toml_str).expect("Failed to parse object from TOML string using serde.");

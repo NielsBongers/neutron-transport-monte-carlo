@@ -21,6 +21,11 @@ pub struct MaterialData {
 
     pub number_density: f64,
     pub atomic_mass: f64,
+
+    pub thermal_conductivity: f64,
+    pub density: f64,
+    pub heat_capacity: f64,
+
     pub name: MaterialNames,
     pub fissionable: bool,
 }

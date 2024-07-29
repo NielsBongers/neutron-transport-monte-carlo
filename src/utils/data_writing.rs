@@ -1,12 +1,14 @@
 use crate::diagnostics::geometry_diagnostics::GeometryDiagnostics;
 use crate::diagnostics::BinData;
+use crate::utils::vectors::Vec3D;
 use csv::Writer;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::path::Path;
 
 /// Writing the bin results as a vector, the same as in memory.
 /// Used for internal storage: can be directly deserialized and loaded in again.
-pub fn write_bin_results_vector(neutron_position_bins: &Vec<BinData>, file_path: &str) {
+pub fn write_bin_results_vector(neutron_position_bins: &Vec<BinData>, file_path: &Path) {
     let neutron_position_bin_file = OpenOptions::new()
         .create(true)
         .write(true)
@@ -29,7 +31,7 @@ pub fn write_bin_results_vector(neutron_position_bins: &Vec<BinData>, file_path:
 pub fn write_bin_results_grid(
     geometry: &GeometryDiagnostics,
     simulation_bins: &Vec<BinData>,
-    file_path: &str,
+    file_path: &Path,
 ) {
     let mut neutron_position_bin_file = OpenOptions::new()
         .create(true)
@@ -69,4 +71,23 @@ pub fn write_bin_results_grid(
             }
         }
     }
+}
+
+/// Write the fission events to a file.
+pub fn write_fission_vector(combined_fission_vector: Vec<Vec3D>, file_path: &Path) {
+    let neutron_fissions_file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(file_path)
+        .expect("Opening neutron fissions file.");
+
+    let mut wtr = csv::Writer::from_writer(neutron_fissions_file);
+
+    for fission_event in combined_fission_vector {
+        wtr.serialize(fission_event)
+            .expect("Writing neutron fission position to file");
+    }
+
+    wtr.flush().expect("Flushing CSV writer");
 }

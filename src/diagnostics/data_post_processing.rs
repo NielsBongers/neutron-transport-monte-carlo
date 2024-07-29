@@ -32,6 +32,11 @@ impl NeutronDiagnostics {
             k_estimate_vector.push(k_estimate);
         }
 
+        if k_estimate_vector.len() < 2 {
+            warn!("No neutron generations logged - currently starting from generation {}. Is the neutron cap high enough? k estimate may not work.", self.track_from_generation);
+            return None;
+        }
+
         let averaged_k: f64 =
             k_estimate_vector.iter().sum::<f64>() / k_estimate_vector.len() as f64;
 

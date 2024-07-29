@@ -1,4 +1,5 @@
-// #![allow(unused)]
+#![allow(unused)]
+
 use crate::diagnostics::geometry_diagnostics::GeometryDiagnostics;
 use crate::diagnostics::BinData;
 use crate::utils::config_loading::load_config;
@@ -9,6 +10,7 @@ use log::info;
 use serde::Serialize;
 use std::fs::OpenOptions;
 use std::io::Write;
+use std::path::Path;
 
 #[derive(Serialize)]
 struct TemperatureData {
@@ -30,13 +32,13 @@ pub fn write_heat_diffusion_results(
     geometry: &GeometryDiagnostics,
     temperature: &Vec<f64>,
     time: f64,
-    dir_path: &str,
+    dir_path: &Path,
 ) {
     let mut temperature_file = OpenOptions::new()
         .create(true)
         .write(true)
         .truncate(true)
-        .open(format!("{}/{:.5}.csv", &dir_path, time))
+        .open(format!("{}/{:.5}.csv", &dir_path.display(), time))
         .expect("Failed to open temperatures file.");
 
     temperature_file
@@ -72,18 +74,22 @@ pub fn create_temperature_array(geometry: &GeometryDiagnostics, default_value: f
     ]
 }
 
+/// This was the initial heat diffusion model code, which has since been supplanted by the new code, which is still being worked on. 
+/// For now, this code will remain here as a reference, but it does no longer function. 
+#[cfg(feature = "deprecated_code")]
 pub fn solve_fvm(
     geometry: &GeometryDiagnostics,
     simulation_bins: &Vec<BinData>,
     halt_time: Option<f64>,
 ) -> bool {
-    let config = load_config("config/simulation/default.toml");
+    let config = load_config(Path::new("config/simulation/default.toml"));
     let heat_diffusion_parameters: crate::utils::config_loading::HeatDiffusionParametersTOML =
         config.heat_diffusion_parameters;
 
     let local_date_time: DateTime<Local> = Local::now();
     let date_time_string = local_date_time.format("%Y-%m-%d_%H-%M-%S.%f").to_string();
-    let dir_path = format!("results/heat_diffusion/{}", date_time_string);
+    let dir_path_string = format!("results/heat_diffusion/{}", date_time_string);
+    let dir_path = Path::new(&dir_path_string);
 
     std::fs::create_dir_all(&dir_path).expect(
         "Failed to create path to write heat diffusion results to: results/heat_diffusion/csvs",
@@ -97,7 +103,7 @@ pub fn solve_fvm(
         .expect("Halt time has to be enabled in the configuration file to use heat diffusion.");
 
     const ENERGY_PER_FISSION: f64 = 1.9341e+8; // eV
-    const EV_TO_JOULE: f64 = 1.60218e-19;
+    const EV_TO_JOULE: f64 = 1.60218e-19; // eV/J
 
     let power_per_fission = ENERGY_PER_FISSION * EV_TO_JOULE / halt_time / element_volume
         * heat_diffusion_parameters.neutron_multiplier;
@@ -248,32 +254,24 @@ pub fn solve_fvm(
 }
 
 pub fn solve_fvm_from_file_data() {
-    let config = load_config("config/simulation/default.toml");
+    let config = load_config(Path::new("config/simulation/default.toml"));
     let heat_diffusion_parameters = config.heat_diffusion_parameters;
-    let bin_parameters = config.bin_parameters;
+    let grid_bin_parameters = config.neutron_bins;
 
-    #[allow(unused)]
-    let geometry = GeometryDiagnostics::new(
-        bin_parameters.length_count,
-        bin_parameters.depth_count,
-        bin_parameters.height_count,
-        bin_parameters.center,
-        bin_parameters.total_length,
-        bin_parameters.total_depth,
-        bin_parameters.total_height,
-    );
+    let geometry = GeometryDiagnostics::new(grid_bin_parameters);
 
-    let simulation_bins = load_bin_data_vector(&heat_diffusion_parameters.source_data_file);
+    let simulation_bins =
+        load_bin_data_vector(Path::new(&heat_diffusion_parameters.source_data_file));
 
     write_bin_results_grid(
         &geometry,
         &simulation_bins,
-        r"D:\Desktop\nuclear-rust\results\geometry\neutron_bins.csv",
+        Path::new(r"D:\Desktop\nuclear-rust\results\geometry\neutron_bins.csv"),
     );
 
-    solve_fvm(
-        &geometry,
-        &simulation_bins,
-        config.simulation_parameters.halt_time,
-    );
+    // solve_fvm(
+    //     &geometry,
+    //     &simulation_bins,
+    //     config.simulation_parameters.halt_time,
+    // );
 }
