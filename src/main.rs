@@ -1,13 +1,13 @@
 use env_logger::{Builder, Env};
 use log::info;
-use nuclear::simulation::custom_runs::standard_simulation::create_simulation;
+use nuclear::simulation::aggregate_runs::standard_simulation::create_simulation;
 use std::path::Path;
 
 use nuclear::diagnostics::geometry_diagnostics::GeometryDiagnostics;
 use nuclear::diagnostics::plotting::plot_geometry;
 
 use nuclear::heat_diffusion::HeatDiffusion;
-use nuclear::simulation::custom_runs::aggregate_runs::parallel_runs;
+use nuclear::simulation::aggregate_runs::aggregate_runs::parallel_runs;
 use nuclear::utils::config_loading::load_config;
 
 fn main() {

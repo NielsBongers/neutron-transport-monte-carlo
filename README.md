@@ -1,7 +1,5 @@
 # Neutron Transport Monte Carlo 
 
-![Rust Main](https://github.com/NielsBongers/neutron-transport-monte-carlo/actions/workflows/rust.yml/badge.svg?branch=main&event=push)
-
 ## Overview 
 
 This is an energy-dependent neutron transport Monte Carlo simulation developed entirely in Rust, which can be used to design and simulate simple nuclear reactors. 
@@ -164,6 +162,28 @@ The heat diffusion code was completely reworked, resulting in massive speed-ups,
 
 Along side these changes, a lot of the other code was also modified to be easier to use and more efficient, including the general configuration file layout, the multithreaded parts, file writing etc. 
 
+### 03-11-2024 - Variance reduction and convergence analysis 
+
+I have added basic convergence analysis using the neutron position bins. As a metric, I am using a form of mean relative difference between timesteps: 
+
+$\frac{1}{N} \sum_{i=1}^N \left| \frac{n_i^t}{n_T^t} - \frac{n_i^{t-1}}{n_T^{t-1}} \right|$
+
+This normalizes the neutrons per bin $i$ for a timestep $t$ and $t+1$ over the total number of neutrons in the vector at those timesteps, so $n_T^t$ and $n_T^{t+1}$, respectively. 
+
+This gives very reasonable results: we converge at a rate of around -1.14; per order of magnitude of neutron generations, we decrease our convergence measure by a bit more than an order of magnitude. 
+
+<img src="figures/03112024 - Neutron Monte Carlo - convergence analysis - basic reactor.png" width="400" alt="Convergence analysis.">
+
+Aside from this, I have extended the code with basic variance reduction. There are now options to remove a randomly sampled number of neutrons if the population exceeds a set number, or to sample from the existing distribution to instead add more neutrons. 
+
+```
+# Variance reduction 
+variance_reduction = true                             # Resets the neutron count to specified_neutron_count each generation by removing or sampling. 
+specified_neutron_count = 10000                       # Target neutron count. 
+```
+
+This allows estimation of distributions for geometries where $k \neq 1$, and which therefore either exponentially increases or decreases. 
+
 ## Future development 
 
 ### Flux through shapes 
@@ -176,7 +196,7 @@ Currently, the software allows for exporting all neutron data, or manually savin
 
 ### Optimization 
 
-One of the goals of the simulation is to design a simple reactor, including power and heat generation. To allow for easier design, a simple set of optimization tools could be added later, perhaps based on gradient-based methods or genetic algorithms, in order to optimize different parameters like the number of fuel units, dimensions, locations etc. 
+One of the goals of the simulation is to design a simple reactor, including power and heat generation. To allow for easier design, a simple set of optimization tools could be added later, perhaps based on gradient-based methods, differential evolution, or perhaps Nelder-Mead, in order to optimize different parameters like the number of fuel units, dimensions, locations etc. 
 
 ## Examples 
 

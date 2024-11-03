@@ -1,38 +1,46 @@
 # config/default.toml
 # Intended for regular use: can be modified, also through Python. 
 [parallelization_parameters]
-number_threads = 2
-simulations_per_thread = 2
+number_threads = 10
+simulations_per_thread = 1
 
 [simulation_parameters]
-run_name = 'Larger geometry heat diffusion'
+run_name = 'Convergence analysis'
 
 # Neutron settings
 neutron_initial_position = { x = -0.05, y = 0.0, z = 0.0 }
-neutron_generation_cap = 100000                       # Maximum number of generations: simulated will be halted. 
-neutron_count_cap = 50000                             # Maximum number of neutrons: simulated will be halted unless enforce_maximum_neutron_count is true. 
+
+neutron_generation_cap = 1000                         # Maximum number of generations: simulation will be halted. 
+neutron_count_cap = 50000                             # Maximum number of neutrons: simulation will be halted unless enforce_maximum_neutron_count is true. 
 neutron_fission_count_cap = 100000                    # Halts the simulation when this number of fissions have been recorded. Requires track_fission_positions. 
-halt_time = 1e-6                                      # Removes any neutron after this time. Useful for power estimation. 
-initial_neutron_count = 1000                          # Initial number of neutrons. 
+
+initial_neutron_count = 10000                         # Initial number of neutrons. 
 maximum_neutron_energy_difference = 0.01              # Maximum energy difference from elastic collisions before the material properties are updated. 
-enforce_maximum_neutron_count = false                 # Removes any neutrons beyond neutron_count_cap. Useful for power and distribution estimation. 
-track_from_generation = 5                             # Generation from which to start tracking results. Reduces initialization bias. 
+
+# Variance reduction 
+variance_reduction = true                             # Resets the neutron count to specified_neutron_count each generation by removing or sampling. 
+specified_neutron_count = 10000                       # Target neutron count. 
 
 # Geometries 
 geometries_path = 'config/geometries/reactor_vessel.toml'
 
 # Diagnostics
+halt_time = 1e-1                                      # Removes any neutron after this time. Useful for power estimation. 
+track_from_generation = 5                             # Generation from which to start tracking results. Reduces initialization bias. 
 estimate_k = true                                     # Estimates the neutron multiplication factor. 
-track_fission_positions = true                        # Tracks exact positions of fission events. Useful for heat diffusion simulations. 
-track_bins = false                                    # Tracks presence and fission events. 
-write_results = false                                 # Calculates everything but does not write any results to diagnostics file except the simulation report if set to false. Still writes the aggregated data. 
+track_fission_positions = false                       # Tracks exact positions of fission events. Useful for heat diffusion simulations. 
+track_bins = true                                     # Tracks presence and fission events. 
+
+calculate_convergence = true                          # Enabling convergence analysis. 
+convergence_analysis_period = 1                       # Check convergence per this number of generations. 
+minimum_convergence_level = 1e-5                      # Halting criterion for convergence. 
 
 # Post-processing
 plot_geometry = false                                 # Plotting the geometry in a format that ParaView can load in as a CSV. 
 model_heat_diffusion = false                          # Simulating heat diffusion using the calculated bins. 
 
 [heat_diffusion_parameters]
-source_data_file = 'D:\Desktop\neutron-transport-monte-carlo\results\diagnostics\aggregated_runs\Larger geometry heat diffusion - 2024-07-29_16-57-28.284092300\neutron_fission_results.csv'
+source_data_file = 'D:\Desktop\nuclear-rust\results\diagnostics\aggregated_runs\Larger geometry heat diffusion - 2024-07-29_14-26-41.975221400\neutron_fission_results.csv'
 minimum_relevant_property_index = 6                   # Minimum property index: anything less than this is considered a boundary condition. 
 neutron_multiplier = 1e5                              # Neutron multiplier for the heat diffusion. 
 convective_heat_transfer_coefficient = 10000.0        # Based on Nusselt for a flat plate, spacing of 1.5 cm. 
@@ -49,9 +57,9 @@ center = { x = 0.0, y = 0.0, z = 0.0 }
 length_count = 200
 depth_count = 200
 height_count = 200
-total_length = 2
-total_depth = 2
-total_height = 2
+total_length = 1.5
+total_depth = 1.5
+total_height = 1.5
 
 [geometry_plot_bins]
 center = { x = -0.05, y = 0.0, z = 0.0 }

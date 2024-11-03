@@ -1,6 +1,6 @@
 use crate::diagnostics::geometry_diagnostics::GeometryDiagnostics;
 use crate::heat_diffusion::SimulationDirections;
-use crate::simulation::custom_runs::standard_simulation::create_simulation;
+use crate::simulation::aggregate_runs::standard_simulation::create_simulation;
 use crate::utils::config_loading::load_config;
 use crate::utils::config_loading::GridBinParametersTOML;
 use crate::utils::data_loading::load_fission_vector;

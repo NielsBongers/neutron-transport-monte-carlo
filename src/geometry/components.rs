@@ -239,9 +239,9 @@ impl Components {
         let empty_reference_vector: Vec<PartComposition> = Vec::default();
         let mut max_part_composition_vector: &Vec<PartComposition> = &empty_reference_vector;
 
-        // Iterates over all the different parts.
+        // Iterating over all the different parts.
         for part in &self.parts_vector {
-            // Checks each option in the enum.
+            // Checks each option in the enum and returns the matches.
             let (is_inside, order, material_composition_vector) = match part {
                 PartTypes::Sphere(sphere) => (
                     sphere.is_inside(neutron_position),
@@ -260,16 +260,10 @@ impl Components {
                 ),
             };
 
-            if order > maximum_order && is_inside == true {
+            // Keeping track of the highest-order part for Constructive Solid Geometry.
+            if order > maximum_order && is_inside {
                 maximum_order = order;
                 max_part_composition_vector = material_composition_vector;
-
-                // for material_composition in max_part_composition_vector.iter() {
-                //     debug!(
-                //         "Looking at {:?}. Inside: {}, with order {}",
-                //         material_composition.material_name, is_inside, order
-                //     );
-                // }
             }
         }
 

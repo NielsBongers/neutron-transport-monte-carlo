@@ -54,9 +54,9 @@ impl Simulation {
 
         self.populate_initial_neutrons(&parent_neutron);
 
-        self.neutron_scheduler.maximum_neutrons_per_generation =
-            self.simulation_parameters.neutron_count_cap;
-        self.neutron_scheduler.enforce_maximum_neutron_count =
-            self.simulation_parameters.enforce_maximum_neutron_count;
+        self.neutron_scheduler.specified_neutron_count =
+            self.simulation_parameters.specified_neutron_count;
+
+        self.neutron_scheduler.variance_reduction = self.simulation_parameters.variance_reduction;
     }
 }

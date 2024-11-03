@@ -30,18 +30,21 @@ pub struct SimulationParametersTOML {
     pub neutron_generation_cap: i64,
     pub neutron_count_cap: i64,
     pub initial_neutron_count: i64,
-    pub enforce_maximum_neutron_count: bool,
+    pub variance_reduction: bool,
+    pub specified_neutron_count: i64,
     pub neutron_fission_count_cap: i64,
     pub estimate_k: bool,
     pub track_fission_positions: bool,
     pub track_bins: bool,
     pub track_from_generation: i64,
     pub plot_geometry: bool,
-    pub write_results: bool,
     pub halt_time: Option<f64>,
     pub maximum_neutron_energy_difference: f64,
     pub geometries_path: String,
     pub model_heat_diffusion: bool,
+    pub calculate_convergence: bool,
+    pub convergence_analysis_period: i64,
+    pub minimum_convergence_level: f64,
 }
 
 /// Parameters for heat diffusion modelling.

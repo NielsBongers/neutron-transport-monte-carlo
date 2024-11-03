@@ -24,6 +24,16 @@ impl Simulation {
                 return false;
             }
 
+            if tracked_neutron_generation % 1 == 0
+                && tracked_neutron_generation != self.neutron_diagnostics.previous_bin_generation
+                && self.simulation_parameters.calculate_convergence
+            {
+                self.neutron_diagnostics.previous_bin_generation = tracked_neutron_generation;
+
+                self.neutron_diagnostics
+                    .update_convergence(tracked_neutron_generation);
+            }
+
             // Getting the earliest neutron.
             let neutron = self.neutron_scheduler.get_neutron(&mut self.rng);
 
@@ -130,7 +140,7 @@ impl Simulation {
             let total_neutron_count = self.neutron_scheduler.current_neutron_count();
 
             if total_neutron_count > self.simulation_parameters.neutron_count_cap
-                && !self.simulation_parameters.enforce_maximum_neutron_count
+                && !self.simulation_parameters.variance_reduction
             {
                 self.neutron_diagnostics.track_simulation_halt(
                     tracked_neutron_generation as i64,

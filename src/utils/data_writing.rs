@@ -74,7 +74,7 @@ pub fn write_bin_results_grid(
 }
 
 /// Write the fission events to a file.
-pub fn write_fission_vector(combined_fission_vector: Vec<Vec3D>, file_path: &Path) {
+pub fn write_fission_vector(combined_fission_vector: &Vec<Vec3D>, file_path: &Path) {
     let neutron_fissions_file = OpenOptions::new()
         .create(true)
         .write(true)
@@ -87,6 +87,29 @@ pub fn write_fission_vector(combined_fission_vector: Vec<Vec3D>, file_path: &Pat
     for fission_event in combined_fission_vector {
         wtr.serialize(fission_event)
             .expect("Writing neutron fission position to file");
+    }
+
+    wtr.flush().expect("Flushing CSV writer");
+}
+
+/// Write the convergence results to a file
+pub fn write_convergence_vector(convergence_per_generation: &Vec<(i64, f64)>, file_path: &Path) {
+    let neutron_fissions_file = OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(file_path)
+        .expect("Opening convergence file.");
+
+    let mut wtr = csv::Writer::from_writer(neutron_fissions_file);
+
+    // Write the header
+    wtr.write_record(&["generation", "convergence"])
+        .expect("Failed to write header to file");
+
+    for convergence_result in convergence_per_generation {
+        wtr.serialize(convergence_result)
+            .expect("Failed to write convergence result to file");
     }
 
     wtr.flush().expect("Flushing CSV writer");

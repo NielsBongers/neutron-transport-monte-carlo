@@ -12,7 +12,8 @@ run_name = 'Reference run'
 neutron_generation_cap = 200
 neutron_count_cap = 100000
 initial_neutron_count = 100
-enforce_maximum_neutron_count = false
+variance_reduction = false
+specified_neutron_count = 10000
 neutron_fission_count_cap = 100000000
 estimate_k = true
 track_fission_positions = false 
@@ -22,9 +23,11 @@ maximum_neutron_energy_difference = 0.01
 geometries_path = ""
 neutron_initial_position = { x = 0.0, y = 0.0, z = 0.0 }
 track_from_generation = 5 # Generation from which to start tracking results. 
-write_results = false # Calculates everything but does not write any results to diagnostics file except the simulation report. 
 model_heat_diffusion = false 
 neutron_multiplier = 0
+calculate_convergence = false                          # Enabling convergence analysis. 
+convergence_analysis_period = 1                       # Check convergence per this number of generations. 
+minimum_convergence_level = 1e-5                      # Halting criterion for convergence. 
 
 [heat_diffusion_parameters]
 source_data_file = '/path/to/source/result'

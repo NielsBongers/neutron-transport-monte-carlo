@@ -4,7 +4,7 @@ use crate::neutrons::neutron_scheduler::NeutronScheduler;
 
 use crate::utils::config_loading::SimulationParametersTOML;
 
-pub mod custom_runs;
+pub mod aggregate_runs;
 pub mod initialization;
 pub mod simulation;
 

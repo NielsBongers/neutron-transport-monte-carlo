@@ -18,14 +18,20 @@ pub mod plotting;
 
 #[derive(Default, Clone, Serialize, Deserialize, Copy)]
 pub struct BinData {
-    pub neutron_count: i32,
-    pub fission_count: i32,
+    pub neutron_count: i64,
+    pub fission_count: i64,
 }
 
 #[derive(Default)]
 pub struct NeutronDiagnostics {
-    pub neutron_generation_history: Vec<i64>,
+    pub neutron_generation_counts: Vec<i64>,
     pub neutron_position_bins: Vec<BinData>,
+    pub neutron_position_bins_previous: Vec<BinData>,
+
+    pub convergence_tracking: Vec<(i64, f64)>,
+
+    pub previous_bin_generation: i64,
+
     pub neutron_fission_locations: Vec<Vec3D>,
 
     pub bin_parameters: GeometryDiagnostics,
@@ -44,4 +50,5 @@ pub struct NeutronDiagnostics {
     pub total_neutrons_tracked: i64,
     pub total_fissions: i64,
     pub power_generated: f64,
+    pub total_energy: f64,
 }
